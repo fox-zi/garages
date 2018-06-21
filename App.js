@@ -4,7 +4,12 @@ import MapMain from './map/map_component'
 export default class App extends React.Component {
   render() {
     return (
-      <MapMain />
+      <MapMain region={{
+        latitude: 10.8231,
+        longitude: 106.6297,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }}/>
     );
   }
 }
