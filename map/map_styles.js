@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-const styles = StyleSheet.create({
+const map_styles = StyleSheet.create({
   radius: {
     height: 50,
     width: 50,
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default styles
+export default map_styles

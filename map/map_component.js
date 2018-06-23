@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './map_styles'
-class MapMain extends React.Component {
+class MapComponent extends React.Component {
   render() {
     return (
       <View style={ styles.container }>
@@ -20,4 +20,4 @@ class MapMain extends React.Component {
     );
   }
 }
-export default MapMain
+export default MapComponent

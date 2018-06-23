@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapMain from './map/map_component'
+import MapComponent from './map/map_component'
 export default class App extends React.Component {
   render() {
     return (
-      <MapMain region={{
+      <MapComponent region={{
         latitude: 10.8231,
         longitude: 106.6297,
         latitudeDelta: 0.0922,
