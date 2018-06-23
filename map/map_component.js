@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import styles from './map_styles'
 const LATITUDE_DELTA = 0.1
 const LONGTITUDE_DELTA = 0.8
-class MapMain extends React.Component {
+class MapComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,4 +66,4 @@ class MapMain extends React.Component {
     );
   }
 }
-export default MapMain
+export default MapComponent
