@@ -7,6 +7,8 @@ const LONGTITUDE_DELTA = 0.8
 class MapComponent extends React.Component {
   constructor(props) {
     super(props);
+    arrayMarkers = [
+    ];
     this.state = {
       region: {
         latitude: 10,
@@ -15,6 +17,7 @@ class MapComponent extends React.Component {
         longitudeDelta: LONGTITUDE_DELTA,
       },
       error: null,
+      markers: arrayMarkers,
     };
   }
   componentDidMount() {
@@ -49,18 +52,38 @@ class MapComponent extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
+  onPress(data) {
+    let latitude = data.nativeEvent.coordinate.latitude
+    let longitude = data.nativeEvent.coordinate.longitude
+    arrayMarkers.push({
+      latitude: latitude,
+      longitude: longitude,
+    })
+    this.setState({ markers: arrayMarkers })
+    console.log(this.state.markers)
+  }
+
   render() {
     return (
       <View style={ styles.container }>
         <MapView
           style={ styles.map }
-          region={ this.state.region }>
+          region={ this.state.region }
+          onPress={ this.onPress.bind(this) }
+        >
           <MapView.Marker
             coordinate={ this.state.region }>
             <View style={ styles.radius }>
               <View style={ styles.marker }/>
             </View>
           </MapView.Marker>
+          { this.state.markers.map(marker =>(
+            <MapView.Marker
+              coordinate={ marker }
+              title={'Position: '}
+              description={'Position description: '}>
+            </MapView.Marker>
+          ))}
         </MapView>
       </View>
     );
