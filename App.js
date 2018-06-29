@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
+import MapComponent from './map/map_component'
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <MapComponent region={{
+        latitude: 10.8231,
+        longitude: 106.6297,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }}/>
     );
   }
 }
