@@ -1,24 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import MapComponent from './map/map_component'
+import { AppNavigation } from './navigation';
+import { View } from 'native-base';
+
 export default class App extends React.Component {
   render() {
     return (
-      <MapComponent region={{
-        latitude: 10.8231,
-        longitude: 106.6297,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }}/>
+      <AppNavigation/>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
