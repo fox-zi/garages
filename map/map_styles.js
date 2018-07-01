@@ -28,6 +28,7 @@ const map_styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    zIndex: -1
   },
   map: {
     position: 'absolute',
@@ -35,7 +36,14 @@ const map_styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-  }
+  },
+  propositionFloatButton: {
+    backgroundColor: '#F44336',
+    bottom: 60
+  },
+  locateFloatButton: {
+    backgroundColor: '#FFFFFF'
+  },
 });
 
 export default map_styles
