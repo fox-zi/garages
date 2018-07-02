@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'native-base';
-import MapComponent from '../map/map_component';
-import SearchBar from '../searching/search_bar_component'
+import MapComponent from '../components/map/map_component';
+import SearchBar from '../components/searching/search_bar_component'
 
 export default class MainScreen extends React.Component {
   render() {
@@ -17,7 +17,6 @@ export default class MainScreen extends React.Component {
           }}
           navigation={this.props.navigation}
         />
-        
       </Container>
     );
   }

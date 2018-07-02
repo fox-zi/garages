@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Item, Input, Label, Button, Icon, Text, Container } from 'native-base';
 import GaragePropositionStyle from './garage_proposition_style';
 
-export default class GaragePropositionComponent extends React.Component {
+export default class GarageProposition extends React.Component {
   render() {
     return (
       <Container style={GaragePropositionStyle.formContainer}>
