@@ -1,7 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Icon, Fab } from 'native-base';
 import MapView from 'react-native-maps';
-import styles from './map_styles'
+import styles from './map_styles';
+
+
 const LATITUDE_DELTA = 0.1
 const LONGTITUDE_DELTA = 0.8
 class MapComponent extends React.Component {
@@ -85,6 +88,21 @@ class MapComponent extends React.Component {
             </MapView.Marker>
           ))}
         </MapView>
+        <Fab
+            direction="up"
+            containerStyle={{}}
+            style={ styles.locateFloatButton }
+            position="bottomRight">
+            <Icon name="locate" style={{ color: '#000000' }} />
+          </Fab>
+          <Fab
+            direction="up"
+            containerStyle={{}}
+            style={ styles.propositionFloatButton }
+            position="bottomRight"
+            onPress={() => this.props.navigation.navigate('GarageProposition')}>
+            <Icon name="add"/>
+          </Fab>
       </View>
     );
   }
