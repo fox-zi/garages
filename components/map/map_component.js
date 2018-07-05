@@ -52,18 +52,34 @@ class MapComponent extends React.Component {
       );
     }
   }
+  getPositionCurrent(){
+
+  }
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
+  getMoviesFromApiAsync() {
+    return fetch('https://0dfe001a.ngrok.io/api/v1/garages.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        for (let value of responseJson) {
+          arrayMarkers.push({
+            latitude: value.latitude,
+            longitude: value.longitude,
+            name: value.name,
+            description: value.description,
+          })
+        }
+        this.setState({ markers: arrayMarkers })
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   onPress(data) {
-    let latitude = data.nativeEvent.coordinate.latitude
-    let longitude = data.nativeEvent.coordinate.longitude
-    arrayMarkers.push({
-      latitude: latitude,
-      longitude: longitude,
-    })
-    this.setState({ markers: arrayMarkers })
-    console.log(this.state.markers)
+    this.getMoviesFromApiAsync()
+
   }
 
   render() {
@@ -80,11 +96,12 @@ class MapComponent extends React.Component {
               <View style={ styles.marker }/>
             </View>
           </MapView.Marker>
-          { this.state.markers.map(marker =>(
+          { this.state.markers.map((marker, key) =>(
             <MapView.Marker
+              key={ key }
               coordinate={ marker }
-              title={'Position: '}
-              description={'Position description: '}>
+              title={ marker.name }
+              description={ marker.description }>
             </MapView.Marker>
           ))}
         </MapView>
