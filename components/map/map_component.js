@@ -59,7 +59,7 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
   getMoviesFromApiAsync() {
-    return fetch('https://0dfe001a.ngrok.io/api/v1/garages.json')
+    return fetch('http://fixmybike.herokuapp.com/api/v1/garages.json?token=2e900f7419c3d358a28f48cc9ee5803a')
       .then((response) => response.json())
       .then((responseJson) => {
         for (let value of responseJson) {
