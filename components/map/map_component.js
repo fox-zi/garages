@@ -24,6 +24,7 @@ class MapComponent extends React.Component {
     };
   }
   componentDidMount() {
+    self = this
     if (this.props.region) {
       this.setState({
         region: {
@@ -35,29 +36,31 @@ class MapComponent extends React.Component {
       })
     }
     else {
-      this.watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          this.setState({
-            region: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGTITUDE_DELTA,
-            },
-            error: null,
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      {  enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
-      );
+      this.getPositionCurrent()
     }
   }
   getPositionCurrent(){
-
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        self.setState({
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGTITUDE_DELTA,
+          },
+          error: null,
+      });
+    },
+    (error) => this.setState({ error: error.message }),
+    {  enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
   }
+
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
+
   getMoviesFromApiAsync() {
     return fetch('http://fixmybike.herokuapp.com/api/v1/garages.json?token=2e900f7419c3d358a28f48cc9ee5803a')
       .then((response) => response.json())
@@ -79,7 +82,6 @@ class MapComponent extends React.Component {
 
   onPress(data) {
     this.getMoviesFromApiAsync()
-
   }
 
   render() {
@@ -110,7 +112,8 @@ class MapComponent extends React.Component {
             containerStyle={{}}
             style={ styles.locateFloatButton }
             position="bottomRight">
-            <Icon name="locate" style={{ color: '#000000' }} />
+            <Icon name="locate" style={{ color: '#000000' }}
+            onPress= { this.getPositionCurrent } />
           </Fab>
           <Fab
             direction="up"
