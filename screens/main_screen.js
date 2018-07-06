@@ -9,12 +9,6 @@ export default class MainScreen extends React.Component {
       <Container>
         <SearchBar navigation={this.props.navigation} />
         <MapComponent
-          region={{
-            latitude: 10.8231,
-            longitude: 106.6297,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
           navigation={this.props.navigation}
         />
       </Container>
