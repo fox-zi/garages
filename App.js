@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppNavigation } from './navigation';
 import { AppLoading } from 'expo';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 export default class App extends React.Component {
   state = {
@@ -26,7 +28,9 @@ export default class App extends React.Component {
     }
 
     return (
-      <AppNavigation/>
+      <Provider store={store}>
+        <AppNavigation/>
+      </Provider>
     );
   }
 }

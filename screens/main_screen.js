@@ -1,9 +1,12 @@
 import React from 'react';
 import { Container } from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as MapActions from '../components/map/actions';
 import MapComponent from '../components/map/map_component';
-import SearchBar from '../components/searching/search_bar_component'
+import SearchBar from '../components/searching/search_bar_component';
 
-export default class MainScreen extends React.Component {
+class MainScreen extends React.Component {
   render() {
     return (
       <Container>
@@ -21,3 +24,17 @@ export default class MainScreen extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    selectedGarageId: state.mapReducer.selectedGarageId
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(MapActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
-import mapReducer from './map/map_reducer.js'
+import mapReducer from './components/map/reducer'
 
 const reducer = combineReducers({
-  map: mapReducer,
+  mapReducer: mapReducer,
 })
+
 export default reducer;
