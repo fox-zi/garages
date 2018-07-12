@@ -1,5 +1,23 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "FixMyBike",
+    "icon": "./app-icon.png",
+    "version": "0.1.0",
+    "slug": "fix-my-bike",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.thepiggy.fixmybike",
+      "config": {
+        "googleMapsApiKey": "AIzaSyC4OqCbguyuSosrnPGm6PCCTAilMKk1Tk0"
+      }
+    },
+    "android": {
+      "package": "com.thepiggy.fixmybike",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC4OqCbguyuSosrnPGm6PCCTAilMKk1Tk0"
+        }
+      }
+    }
   }
 }
