@@ -13,9 +13,16 @@ class MainScreen extends React.Component {
         <SearchBar navigation={this.props.navigation} />
         <MapComponent
           navigation={this.props.navigation}
+          selectGagare={() => this.selectGarage()}
         />
       </Container>
     );
+  }
+
+  // Test method to check redux action
+  selectGarage() {
+    let id = Math.floor(Math.random() * 100) + 1; // Random 1 -> 100
+    this.props.actions.selectGarage(id);
   }
 }
 

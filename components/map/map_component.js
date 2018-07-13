@@ -56,9 +56,13 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
   onPress(data) {
+    //Call test method to check redux
+    this.props.selectGagare();
+    
     let latitude = data.nativeEvent.coordinate.latitude
     let longitude = data.nativeEvent.coordinate.longitude
     arrayMarkers.push({
+      key: arrayMarkers.length,
       latitude: latitude,
       longitude: longitude,
     })
@@ -82,6 +86,7 @@ class MapComponent extends React.Component {
           </MapView.Marker>
           { this.state.markers.map(marker =>(
             <MapView.Marker
+              key={marker.key}
               coordinate={ marker }
               title={'Position: '}
               description={'Position description: '}>
