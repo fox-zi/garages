@@ -43,7 +43,7 @@ class MapComponent extends React.Component {
     try {
       let arrayMarkers = []
       let status_ok = true
-      let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&distance=${5}`
+      let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&radius=20`
       console.log(url)
       let response = await (await fetch(url));
       if (response.status==204) {
