@@ -39,7 +39,32 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  getMoviesFromApiAsync(region) {
+  async getMoviesFromApiAsync(region) {
+    try {
+      let arrayMarkers = []
+      let status_ok = true
+      let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&distance=${5}`
+      console.log(url)
+      let response = await (await fetch(url));
+      if (response.status==204) {
+        return status_ok = false
+      } else {
+        let responseJson = await response.json();
+        for (let value of responseJson) {
+          arrayMarkers.push({
+            latitude: value.latitude,
+            longitude: value.longitude,
+            name: value.name,
+            description: value.description,
+          })
+        }
+      }
+      return self.props.actions.garageNears(arrayMarkers, region);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  getMoviesFromApiAsync1(region) {
     let arrayMarkers = []
     let status_ok = true
     let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&distance=${5}`
