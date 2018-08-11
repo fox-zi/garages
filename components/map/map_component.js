@@ -4,55 +4,33 @@ import { Icon, Fab } from 'native-base';
 import MapView from 'react-native-maps';
 import styles from './map_styles';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as MapReducer from './actions';
 
-const LATITUDE_DELTA = 0.1
-const LONGTITUDE_DELTA = 0.8
 class MapComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      region: {
-        latitude: 10,
-        longitude: 106,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGTITUDE_DELTA,
-      },
-      error: null,
-      markers: [],
       firstLoading: true,
       isZoom: false,
     };
   }
   componentDidMount() {
     self = this
-    if (this.props.region) {
-      this.setState({
-        region: {
-          latitude: this.props.region.latitude,
-          longitude: this.props.region.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGTITUDE_DELTA,
-        }, error: null
-      })
-    }
-    else {
-      this.getPositionCurrent()
-    }
+    this.getPositionCurrent()
   }
   getPositionCurrent(){
     this.watchId = navigator.geolocation.watchPosition(
       (position) => {
-        self.setState({
-          region: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGTITUDE_DELTA,
-          },
-          error: null,
-      });
+        return self.props.actions.myPostion({
+          latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           latitudeDelta: MapReducer.LATITUDE_DELTA,
+           longitudeDelta: MapReducer.LONGTITUDE_DELTA,
+        })
     },
-    (error) => this.setState({ error: error.message }),
+    (error) => alert('Không tìm thấy vị trí của bạn!'),
     {  enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
     );
   }
@@ -61,12 +39,11 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  getMoviesFromApiAsync() {
+  getMoviesFromApiAsync(region) {
     let arrayMarkers = []
     let status_ok = true
-    let url = `https://fixmybike.herokuapp.com/api/v1/garages/find_garages?token=2e900f7419c3d358a28f48cc9ee5803a&longitude=${this.state.region.longitude}&latitude=${this.state.region.latitude}&distance=${5}`
-    console.log(url)
-    return fetch(url)
+    let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&distance=${5}`
+    fetch(url)
       .then((response) => {
         if (response.status==204) {
           return status_ok = false
@@ -87,38 +64,33 @@ class MapComponent extends React.Component {
             })
           }
         }
-        self.setState({ markers: arrayMarkers, firstLoading: false })
+        return self.props.actions.garageNears(arrayMarkers, region);
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
-  onPress(data) {
-    // this.getMoviesFromApiAsync()
-  }
-
   onRegionChangeHandle(region) {
-    self.setState({ region: region });
-    self.getMoviesFromApiAsync()
+    self.getMoviesFromApiAsync(region)
   }
   render() {
     return (
       <View style={ styles.container }>
         <MapView
           style={ styles.map }
-          region={ this.state.region }
+          region={ this.props.region }
           onRegionChangeComplete={this.onRegionChangeHandle}
           zoomEnabled={true}
           showsUserLocation={true}
         >
           <MapView.Marker
-            coordinate={ this.state.region }>
+            coordinate={ this.props.region }>
             <View style={ styles.radius }>
               <View style={ styles.marker }/>
             </View>
           </MapView.Marker>
-          { this.state.markers.map((marker, key) =>(
+          { this.props.markers.map((marker, key) =>(
             <MapView.Marker
               key={ key }
               coordinate={ marker }
@@ -147,4 +119,36 @@ class MapComponent extends React.Component {
     );
   }
 }
-export default MapComponent
+function mapStateToProps(state) {
+  return {
+    garage: {
+      latitude: state.mapReducer.garage.latitude,
+      longitude: state.mapReducer.garage.longitude,
+      name: state.mapReducer.garage.name,
+      description: state.mapReducer.garage.description,
+      latitudeDelta: MapReducer.LATITUDE_DELTA,
+      longitudeDelta: MapReducer.LONGTITUDE_DELTA,
+    },
+    region: {
+      latitude: state.mapReducer.postion.latitude,
+      longitude: state.mapReducer.postion.longitude,
+      latitudeDelta: state.mapReducer.postion.latitudeDelta,
+      longitudeDelta: state.mapReducer.postion.longitudeDelta,
+    },
+    myPostion: {
+      latitude: state.mapReducer.myPosition.latitude,
+      longitude: state.mapReducer.myPosition.longitude,
+      latitudeDelta: state.mapReducer.myPosition.latitudeDelta,
+      longitudeDelta: state.mapReducer.myPosition.longitudeDelta,
+    },
+    markers: state.mapReducer.garages,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(MapReducer, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapComponent)
