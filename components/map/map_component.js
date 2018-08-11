@@ -10,8 +10,6 @@ const LONGTITUDE_DELTA = 0.8
 class MapComponent extends React.Component {
   constructor(props) {
     super(props);
-    arrayMarkers = [
-    ];
     this.state = {
       region: {
         latitude: 10,
@@ -20,7 +18,9 @@ class MapComponent extends React.Component {
         longitudeDelta: LONGTITUDE_DELTA,
       },
       error: null,
-      markers: arrayMarkers,
+      markers: [],
+      firstLoading: true,
+      isZoom: false,
     };
   }
   componentDidMount() {
@@ -62,18 +62,32 @@ class MapComponent extends React.Component {
   }
 
   getMoviesFromApiAsync() {
-    return fetch('http://fixmybike.herokuapp.com/api/v1/garages.json?token=2e900f7419c3d358a28f48cc9ee5803a')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        for (let value of responseJson) {
-          arrayMarkers.push({
-            latitude: value.latitude,
-            longitude: value.longitude,
-            name: value.name,
-            description: value.description,
-          })
+    let arrayMarkers = []
+    let status_ok = true
+    let url = `https://fixmybike.herokuapp.com/api/v1/garages/find_garages?token=2e900f7419c3d358a28f48cc9ee5803a&longitude=${this.state.region.longitude}&latitude=${this.state.region.latitude}&distance=${5}`
+    console.log(url)
+    return fetch(url)
+      .then((response) => {
+        if (response.status==204) {
+          return status_ok = false
+        } else {
+          return response.json();
         }
-        this.setState({ markers: arrayMarkers })
+      })
+      .then((responseJson) => {
+        if (!status_ok) {
+          // if (!self.state.firstLoading) alert('Không tìm thấy địa điểm, bạn nên tìm rộng ta tí xem sao!')
+        } else {
+          for (let value of responseJson) {
+            arrayMarkers.push({
+              latitude: value.latitude,
+              longitude: value.longitude,
+              name: value.name,
+              description: value.description,
+            })
+          }
+        }
+        self.setState({ markers: arrayMarkers, firstLoading: false })
       })
       .catch((error) => {
         console.error(error);
@@ -81,16 +95,22 @@ class MapComponent extends React.Component {
   }
 
   onPress(data) {
-    this.getMoviesFromApiAsync()
+    // this.getMoviesFromApiAsync()
   }
 
+  onRegionChangeHandle(region) {
+    self.setState({ region: region });
+    self.getMoviesFromApiAsync()
+  }
   render() {
     return (
       <View style={ styles.container }>
         <MapView
           style={ styles.map }
           region={ this.state.region }
-          onPress={ this.onPress.bind(this) }
+          onRegionChangeComplete={this.onRegionChangeHandle}
+          zoomEnabled={true}
+          showsUserLocation={true}
         >
           <MapView.Marker
             coordinate={ this.state.region }>
