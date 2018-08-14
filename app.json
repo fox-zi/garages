@@ -9,7 +9,9 @@
       "bundleIdentifier": "com.thepiggy.fixmybike",
       "config": {
         "googleMapsApiKey": "AIzaSyC4OqCbguyuSosrnPGm6PCCTAilMKk1Tk0"
-      }
+      },
+      "publishBundlePath": "ios/fixmybike/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/fixmybike/Supporting/shell-app-manifest.json"
     },
     "android": {
       "package": "com.thepiggy.fixmybike",
@@ -17,7 +19,15 @@
         "googleMaps": {
           "apiKey": "AIzaSyC4OqCbguyuSosrnPGm6PCCTAilMKk1Tk0"
         }
-      }
-    }
+      },
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
+    },
+    "isDetached": true,
+    "detach": {
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.5.10-sdk27.0.0-7e6dd135-e649-48e2-ab7c-e76521ce6259.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.5.3-sdk27.0.0-408c8d77-8d1f-4784-b7b4-93826250663a.tar.gz"
+    },
+    "scheme": "exp55636b312ab942fba78ce018cf4af5e5"
   }
 }

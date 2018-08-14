@@ -39,7 +39,7 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  async getMoviesFromApiAsync(region) {
+  async getMoviesFromApiAsync1(region) {
     try {
       let arrayMarkers = []
       let status_ok = true
@@ -64,10 +64,11 @@ class MapComponent extends React.Component {
       console.error(error);
     }
   }
-  getMoviesFromApiAsync1(region) {
+  getMoviesFromApiAsync(region) {
     let arrayMarkers = []
     let status_ok = true
-    let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&distance=${5}`
+    let url = `${MapReducer.DOMAIN}/api/v1/garages/find_garages?token=${MapReducer.TOKEN}&longitude=${region.longitude}&latitude=${region.latitude}&radius=${10}`
+    console.log(url)
     fetch(url)
       .then((response) => {
         if (response.status==204) {
