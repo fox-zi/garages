@@ -39,7 +39,7 @@ class MapComponent extends React.Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  async getMoviesFromApiAsync1(region) {
+  async getMoviesFromApiAsync_await(region) {
     try {
       let arrayMarkers = []
       let status_ok = true
